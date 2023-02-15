@@ -1,10 +1,16 @@
 import { CssBaseline } from "@mui/material";
 import { Container } from "@mui/system";
 import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import CartSummary from "./components/CartSummary";
 import Navbar from "./components/Navbar";
 import Products from "./components/Products";
 import { PRODUCTS_DATA } from "./data/products";
+import AddProductPage from "./pages/AddProductPage";
+import AdminPage from "./pages/AdminPage";
+import CartSummaryPage from "./pages/CartSummaryPage";
+import EditProductPage from "./pages/EditProductPage";
+import ProductsPage from "./pages/ProductsPage";
 
 function App() {
   const [products, setProducts] = useState(PRODUCTS_DATA);
@@ -55,8 +61,26 @@ function App() {
     }
   };
 
-  const toggleCartSummary = () => {
-    setShowCartSummary(!showCartSummary);
+  const handleDeleteProduct = (id) => {
+    setProducts(products.filter((product) => product.id !== id));
+  };
+
+  const handleAddProduct = (product) => {
+    setProducts([...products, { ...product, id: products.length * 999 + 1 }]);
+  };
+
+  const handleEditProduct = (id, product) => {
+    setProducts(
+      products.map((p) => {
+        if (p.id === id) {
+          return {
+            ...product,
+            id,
+          };
+        }
+        return p;
+      })
+    );
   };
 
   return (
@@ -65,19 +89,47 @@ function App() {
       <Navbar
         showCartSummary={showCartSummary}
         cartItemsCount={cartItems.length}
-        onToggleCartSummaryVisibility={toggleCartSummary}
       />
       <Container sx={{ marginTop: 3 }}>
-        {showCartSummary ? (
-          <CartSummary cartItems={cartItems} />
-        ) : (
-          <Products
-            cartItems={cartItems}
-            onAddToCart={handleAddToCart}
-            onRemoveFromCart={handleRemoveFromCart}
-            products={products}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <ProductsPage
+                cartItems={cartItems}
+                onAddToCart={handleAddToCart}
+                onRemoveFromCart={handleRemoveFromCart}
+                products={products}
+              />
+            }
           />
-        )}
+          <Route
+            path="/cart-summary"
+            element={<CartSummaryPage cartItems={cartItems} />}
+          />
+          <Route
+            path="/admin/products/new"
+            element={<AddProductPage onAddProduct={handleAddProduct} />}
+          />
+          <Route
+            path="/admin/products/:id/edit"
+            element={
+              <EditProductPage
+                onEditProduct={handleEditProduct}
+                products={products}
+              />
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              <AdminPage
+                onDeleteProduct={handleDeleteProduct}
+                products={products}
+              />
+            }
+          />
+        </Routes>
       </Container>
     </>
   );
