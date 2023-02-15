@@ -9,9 +9,11 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
-const ProductCard = ({ product, onAddToCart, cartItem, onRemoveFromCart }) => {
+const ProductCard = ({ product, cartItem }) => {
+  const { onAddToCart, onRemoveFromCart } = useContext(CartContext);
   const renderCartActions = () => {
     return cartItem ? (
       <Grid container spacing={3} direction="row" justifyContent="center">

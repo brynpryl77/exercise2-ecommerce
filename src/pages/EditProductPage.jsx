@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import ProductForm from "../components/ProductForm";
+import { ProductContext } from "../contexts/ProductContext";
 
-const EditProductPage = ({ products, onEditProduct }) => {
+const EditProductPage = () => {
+  const { products, onEditProduct } = useContext(ProductContext);
   const params = useParams();
 
   const { id, title, description, price, quantityInStock, image } =

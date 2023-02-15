@@ -8,14 +8,18 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
-const CartSummary = ({ cartItems }) => {
+const CartSummary = () => {
+  const { cartItems } = useContext(CartContext);
   const getTotalPrice = () => {
-    return cartItems.reduce(
-      (acc, cartItem) => acc + cartItem.product.price * cartItem.quantity,
-      0
-    );
+    return cartItems
+      .reduce(
+        (acc, cartItem) => acc + cartItem.product.price * cartItem.quantity,
+        0
+      )
+      .toFixed(2);
 
     //
   };

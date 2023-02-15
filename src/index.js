@@ -2,12 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+import { CartContext, CartProvider } from "./contexts/CartContext";
+import { ProductProvider } from "./contexts/ProductContext";
+import { UserInterfaceProvider } from "./contexts/UserInterfaceContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <UserInterfaceProvider>
+        <ProductProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </ProductProvider>
+      </UserInterfaceProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
@@ -9,8 +9,12 @@ import Typography from "@mui/material/Typography";
 import { Grid, IconButton } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { ProductContext } from "../contexts/ProductContext";
+import { UserInterfaceContext } from "../contexts/UserInterfaceContext";
 
-const ProductsList = ({ products, onDeleteProduct }) => {
+const ProductsList = () => {
+  const { products, onDeleteProduct } = useContext(ProductContext);
+  const { onOpenSnackBar } = useContext(UserInterfaceContext);
   return (
     <List sx={{ width: "100%", bgcolor: "background.paper" }}>
       {products.map((product) => (
@@ -30,7 +34,13 @@ const ProductsList = ({ products, onDeleteProduct }) => {
                 <IconButton
                   edge="end"
                   aria-label="delete"
-                  onClick={() => onDeleteProduct(product.id)}
+                  onClick={() => {
+                    onDeleteProduct(product.id);
+                    onOpenSnackBar({
+                      severity: "success",
+                      message: "Successfully deleted product",
+                    });
+                  }}
                 >
                   <Delete />
                 </IconButton>

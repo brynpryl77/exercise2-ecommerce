@@ -1,9 +1,10 @@
 import { Button, Grid } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import ProductsList from "../components/ProductsList";
+import { ProductContext } from "../contexts/ProductContext";
 
-const AdminPage = ({ products, onDeleteProduct }) => {
+const AdminPage = () => {
   return (
     <Grid container justifyContent="flex-end" textAlign="right">
       <Grid item xs={12}>
@@ -12,7 +13,7 @@ const AdminPage = ({ products, onDeleteProduct }) => {
         </Button>
       </Grid>
       <Grid item xs={12}>
-        <ProductsList onDeleteProduct={onDeleteProduct} products={products} />
+        <ProductsList />
       </Grid>
     </Grid>
   );

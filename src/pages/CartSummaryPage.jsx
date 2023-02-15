@@ -1,8 +1,8 @@
 import React from "react";
 import CartSummary from "../components/CartSummary";
 
-const CartSummaryPage = ({ cartItems }) => {
-  return <CartSummary cartItems={cartItems} />;
+const CartSummaryPage = () => {
+  return <CartSummary />;
 };
 
 export default CartSummaryPage;
